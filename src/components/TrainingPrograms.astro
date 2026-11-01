@@ -1,0 +1,78 @@
+---
+import ImageSlot from './ImageSlot.astro';
+import strength from '../assets/images/prog-strength.jpg';
+import personal from '../assets/images/prog-personal.jpg';
+import functional from '../assets/images/prog-functional.jpg';
+import cardio from '../assets/images/prog-cardio.jpg';
+
+const programs = [
+  { num: '01', title: 'Strength Training', body: 'Build strength, power and confidence.', ph: 'Strength training, action', ratio: '4 / 5',
+    img: strength, alt: 'Athlete squatting a loaded barbell', tone: 'mono' },
+  { num: '02', title: 'Personal Training', body: 'Individual coaching tailored to your goals.', ph: 'Coach with member', ratio: '1 / 1',
+    img: personal, alt: 'Member pressing dumbbells on a bench', tone: 'ember' },
+  { num: '03', title: 'Functional Fitness', body: 'Improve mobility, balance and performance.', ph: 'Functional training', ratio: '4 / 5',
+    img: functional, alt: 'Athlete stepping up onto a plyo box with kettlebells', tone: 'warm' },
+  { num: '04', title: 'Cardio & Conditioning', body: 'Build endurance and improve fitness.', ph: 'Conditioning session', ratio: '1 / 1',
+    img: cardio, alt: 'Athlete working battle ropes', tone: 'mono' },
+] as const;
+---
+
+<section id="training" class="section section--dark">
+  <div class="container wrap">
+    <div class="section-head">
+      <div class="stack">
+        <span class="eyebrow" data-reveal="up">02 / Train Your Way</span>
+        <h2 class="h2" data-reveal="text">Find your<br />own strength.</h2>
+      </div>
+      <p class="side-copy" data-reveal="up">Four ways to train. Each one coached, structured and built around where you want to go.</p>
+    </div>
+    <div class="grid" data-reveal-stagger>
+      {programs.map((p) => (
+        <a href="#contact" class="program">
+          <div class="media" style={`aspect-ratio:${p.ratio}`}>
+            <div class="zoom"><ImageSlot label={p.ph} src={p.img} alt={p.alt} tone={p.tone} sizes="(min-width: 1300px) 25vw, (min-width: 700px) 50vw, 100vw" /></div>
+          </div>
+          <div class="body">
+            <div class="text">
+              <span class="num">{p.num}</span>
+              <h3>{p.title}</h3>
+              <p>{p.body}</p>
+            </div>
+            <span class="plus" aria-hidden="true">+</span>
+          </div>
+        </a>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .wrap { display: flex; flex-direction: column; gap: clamp(3rem, 5vw, 4.5rem); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 300px), 1fr)); gap: 20px; }
+  .program {
+    position: relative; display: flex; flex-direction: column; gap: 20px; padding: 12px 12px 28px;
+    border-radius: var(--radius-card); background: var(--color-charcoal); color: var(--color-cream);
+    transition: background 220ms ease;
+  }
+  .program:hover { background: var(--color-charcoal-hover); color: var(--color-cream); }
+  .media { position: relative; border-radius: var(--radius-inner); overflow: hidden; }
+  .zoom { position: absolute; inset: 0; transition: transform 700ms cubic-bezier(.2, .7, .2, 1); }
+  .program:hover .zoom { transform: scale(1.06); }
+  .body { display: flex; justify-content: space-between; align-items: flex-start; gap: 16px; padding: 0 12px; }
+  .text { display: flex; flex-direction: column; gap: 10px; }
+  .num { font-family: var(--font-ui); font-size: 13px; letter-spacing: 0.16em; color: var(--color-orange); }
+  h3 {
+    margin: 0; font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(1.9rem, 2.6vw, 2.5rem); line-height: 0.95; text-transform: uppercase;
+  }
+  p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--color-stone); }
+  .plus {
+    flex: none; width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgba(245, 240, 232, 0.25);
+    display: flex; align-items: center; justify-content: center; font-size: 22px; font-weight: 300;
+    transition: background 200ms ease, border-color 200ms ease, color 200ms ease;
+  }
+  .program:hover .plus { background: var(--color-orange); border-color: var(--color-orange); color: var(--color-black); }
+  @media (min-width: 900px) {
+    .program:nth-child(even) { margin-top: 64px; }
+  }
+</style>

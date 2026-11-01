@@ -1,0 +1,98 @@
+---
+import { Image } from 'astro:assets';
+import type { ImageMetadata } from 'astro';
+
+// Photo frame with the site's grade: ember (orange duotone), mono (black and white) or warm (subtle warm grade).
+// Without `src` it renders the labelled placeholder from the design handoff.
+interface Props {
+  label: string;
+  src?: ImageMetadata;
+  alt?: string;
+  tone?: 'ember' | 'mono' | 'warm';
+  widths?: number[];
+  sizes?: string;
+  position?: string;
+  eager?: boolean;
+}
+const {
+  label, src, alt = '', tone = 'warm', widths = [480, 800, 1200],
+  sizes = '(min-width: 900px) 33vw, 100vw', position = 'center', eager = false,
+} = Astro.props;
+---
+
+{src ? (
+  <div class:list={['slot', `tone-${tone}`]}>
+    <Image
+      src={src}
+      alt={alt}
+      widths={widths.filter((w) => w <= src.width)}
+      sizes={sizes}
+      loading={eager ? 'eager' : 'lazy'}
+      fetchpriority={eager ? 'high' : undefined}
+      style={`object-position:${position}`}
+    />
+  </div>
+) : (
+  <div class="slot slot--empty" role="img" aria-label={alt || label}>
+    <span>{label}</span>
+  </div>
+)}
+
+<style>
+  .slot {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    background: var(--color-charcoal);
+  }
+  .slot :global(img) {
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+  }
+  /* Colour grade layer */
+  .slot::before,
+  .slot::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    pointer-events: none;
+  }
+  /* Film grain, shared with the orange surfaces */
+  .slot::after {
+    background-image: var(--grain);
+    background-size: 180px;
+    opacity: 0.22;
+    mix-blend-mode: overlay;
+  }
+  .tone-ember :global(img) { filter: grayscale(1) contrast(1.15) brightness(0.95); }
+  .tone-ember::before {
+    z-index: 1;
+    background: linear-gradient(170deg, #FF6A2B 0%, #FF4B12 40%, #8E1E08 100%);
+    mix-blend-mode: color;
+  }
+  .tone-mono :global(img) { filter: grayscale(1) contrast(1.12) brightness(0.92); }
+  .tone-warm :global(img) { filter: saturate(0.85) contrast(1.06); }
+  .tone-warm::before {
+    z-index: 1;
+    background: linear-gradient(160deg, rgba(255, 75, 18, 0.45), rgba(142, 30, 8, 0.3) 60%, rgba(9, 9, 9, 0.35));
+    mix-blend-mode: soft-light;
+  }
+  .slot::after { z-index: 2; }
+
+  .slot--empty {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    padding: 24px;
+    background:
+      repeating-linear-gradient(135deg, rgba(245, 240, 232, 0.035) 0 1px, transparent 1px 14px),
+      linear-gradient(160deg, #1d1a18, #2b2420 60%, #3a2216);
+    color: rgba(245, 240, 232, 0.55);
+    font-family: var(--font-ui);
+    font-size: 13px;
+    letter-spacing: 0.04em;
+    text-align: center;
+  }
+  .slot--empty::before { display: none; }
+</style>

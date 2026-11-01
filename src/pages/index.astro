@@ -1,0 +1,30 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import SiteHeader from '../components/SiteHeader.astro';
+import HeroSection from '../components/HeroSection.astro';
+import Marquee from '../components/Marquee.astro';
+import ExperienceSection from '../components/ExperienceSection.astro';
+import TrainingPrograms from '../components/TrainingPrograms.astro';
+import TrainerGrid from '../components/TrainerGrid.astro';
+import MembershipPlans from '../components/MembershipPlans.astro';
+import CommunitySection from '../components/CommunitySection.astro';
+import FinalCallToAction from '../components/FinalCallToAction.astro';
+import SiteFooter from '../components/SiteFooter.astro';
+import WhatsAppFab from '../components/WhatsAppFab.astro';
+---
+
+<BaseLayout>
+  <SiteHeader />
+  <main id="top">
+    <HeroSection />
+    <Marquee />
+    <ExperienceSection />
+    <TrainingPrograms />
+    <TrainerGrid />
+    <MembershipPlans />
+    <CommunitySection />
+    <FinalCallToAction />
+  </main>
+  <SiteFooter />
+  <WhatsAppFab />
+</BaseLayout>

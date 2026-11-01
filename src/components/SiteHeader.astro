@@ -1,0 +1,89 @@
+---
+import { site, navItems } from '../config';
+import LogoMark from './LogoMark.astro';
+---
+
+<div class="progress" data-progress aria-hidden="true"></div>
+
+<header class="header" data-autohide>
+  <div class="bar">
+    <a href="#top" class="brand">
+      <LogoMark size={34} />
+      <span>{site.brandName}</span>
+    </a>
+    <nav class="nav" aria-label="Primary">
+      {navItems.map((n) => <a href={n.href}>{n.label}</a>)}
+    </nav>
+    <div class="actions">
+      <a data-magnetic href="#contact" class="join">Join Now</a>
+      <button class="burger" type="button" aria-label="Menu" aria-expanded="false" aria-controls="mobile-menu" data-menu-toggle>
+        <span></span><span></span>
+      </button>
+    </div>
+  </div>
+  <nav id="mobile-menu" class="menu" aria-label="Mobile" hidden data-menu>
+    {navItems.map((n) => <a href={n.href}>{n.label}</a>)}
+  </nav>
+</header>
+
+<style>
+  .progress {
+    position: fixed; top: 0; left: 0; right: 0; height: 3px; z-index: 70;
+    background: var(--color-orange); transform-origin: 0 50%; scale: 0 1; pointer-events: none;
+  }
+  .header {
+    position: fixed; top: 0; left: 0; right: 0; z-index: 50;
+    background: transparent;
+    border-bottom: 1px solid transparent;
+    transition: translate 500ms var(--ease-expo), background-color 300ms ease, border-color 300ms ease;
+  }
+  /* Solid bar once past the hero, or while the mobile menu is open */
+  .header:global(.is-solid),
+  .header:has(.menu:not([hidden])) {
+    background: rgba(9, 9, 9, 0.82);
+    backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border-bottom-color: var(--hairline-dark);
+  }
+  .bar {
+    padding: 0 var(--page-gutter);
+    height: 76px; display: flex; align-items: center; justify-content: space-between; gap: 24px;
+  }
+  .brand {
+    display: flex; align-items: center; gap: 10px; min-width: 0;
+    font-family: var(--font-display); font-size: clamp(19px, 5vw, 24px);
+    white-space: nowrap; letter-spacing: 0.04em; color: var(--color-cream);
+  }
+  .nav {
+    display: none; gap: 36px;
+    font-family: var(--font-ui); font-size: 15px; font-weight: 500; color: var(--color-stone);
+  }
+  .actions { display: flex; align-items: center; gap: 12px; }
+  .join {
+    display: inline-flex; align-items: center; min-height: 44px; padding: 0 22px;
+    border-radius: 999px; background: var(--color-orange); color: var(--color-black);
+    font-family: var(--font-ui); font-weight: 600; font-size: 15px;
+    transition: transform 180ms ease, translate 450ms var(--ease-expo);
+  }
+  .join:hover { transform: translateY(-2px); color: var(--color-black); }
+  .burger {
+    width: 44px; height: 44px; border-radius: 999px;
+    border: 1px solid rgba(245, 240, 232, 0.25); background: transparent;
+    display: flex; flex-direction: column; align-items: center; justify-content: center; gap: 5px; cursor: pointer;
+  }
+  .burger span { width: 18px; height: 2px; background: var(--color-cream); transition: transform 220ms ease; }
+  .burger[aria-expanded="true"] span:first-child { transform: translateY(3.5px) rotate(45deg); }
+  .burger[aria-expanded="true"] span:last-child { transform: translateY(-3.5px) rotate(-45deg); }
+  .menu {
+    display: flex; flex-direction: column;
+    padding: 12px var(--page-gutter) 32px; border-top: 1px solid var(--hairline-dark);
+  }
+  .menu[hidden] { display: none; }
+  .menu a {
+    font-family: var(--font-display); font-size: 40px; line-height: 1;
+    padding: 14px 0; border-bottom: 1px solid var(--hairline-dark); text-transform: uppercase;
+  }
+  @media (min-width: 900px) {
+    .nav { display: flex; margin-left: auto; margin-right: 16px; }
+    .burger, .menu { display: none !important; }
+  }
+</style>

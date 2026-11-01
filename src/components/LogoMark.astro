@@ -1,0 +1,26 @@
+---
+// Atom mark: three orbits around a core, echoing the hero's orbit rings.
+interface Props {
+  size?: number;
+}
+const { size = 30 } = Astro.props;
+---
+
+<svg class="mark" width={size} height={size} viewBox="0 0 48 48" fill="none" aria-hidden="true">
+  <g class="spin" stroke="currentColor" stroke-width="2.6">
+    <ellipse cx="24" cy="24" rx="21" ry="8" />
+    <ellipse cx="24" cy="24" rx="21" ry="8" transform="rotate(60 24 24)" opacity="0.7" />
+    <ellipse cx="24" cy="24" rx="21" ry="8" transform="rotate(120 24 24)" opacity="0.7" />
+  </g>
+  <circle cx="24" cy="24" r="4.2" fill="currentColor" />
+</svg>
+
+<style>
+  .mark { flex: none; display: block; color: var(--color-orange); overflow: visible; }
+  .spin { transform-box: view-box; transform-origin: 50% 50%; animation: atom 24s linear infinite; }
+  :global(a:hover) > .mark .spin { animation-duration: 4s; }
+  @keyframes atom { to { transform: rotate(360deg); } }
+  @media (prefers-reduced-motion: reduce) {
+    .spin { animation: none; }
+  }
+</style>

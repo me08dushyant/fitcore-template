@@ -1,0 +1,140 @@
+---
+import ImageSlot from './ImageSlot.astro';
+import interior from '../assets/images/interior.jpg';
+import { site } from '../config';
+
+const highlights = [
+  { num: '01', title: 'Premium Equipment', body: 'Modern equipment designed for effective training.' },
+  { num: '02', title: 'Expert Guidance', body: 'Professional trainers who understand your goals.' },
+  { num: '03', title: 'A Better Environment', body: 'An inclusive atmosphere built around motivation and consistency.' },
+];
+---
+
+<section id="about" class="section section--cream">
+  <div class="container wrap">
+    <div class="head">
+      <div class="stack">
+        <span class="eyebrow" data-reveal="up">01 / The Experience</span>
+        <h2 class="h2" data-reveal="text"><span class="line">More than a gym.</span><br /><span class="line"><span class="accent">A better way</span> to move.</span></h2>
+      </div>
+      <div class="intro" data-reveal="up">
+        <span class="rule" aria-hidden="true"></span>
+        <p class="lead">A space designed to challenge your limits, support your progress and make every workout count.</p>
+      </div>
+    </div>
+    <div class="grid">
+      <div class="interior" data-reveal="image">
+        <ImageSlot
+          label="Gym interior"
+          src={interior}
+          alt="Moody gym interior with a boxing ring and heavy bag"
+          tone="warm"
+          widths={[640, 960, 1400, 1800]}
+          sizes="(min-width: 1100px) 55vw, 100vw"
+        />
+        <div class="hours">
+          <span class="dot" aria-hidden="true"></span>
+          <div>
+            <span class="hours-label">Open hours</span>
+            <span>{site.hours[0]}</span>
+            <span>{site.hours[1]}</span>
+          </div>
+        </div>
+      </div>
+      <ol class="panel" data-reveal-stagger>
+        {highlights.map((h) => (
+          <li class="row">
+            <span class="num">{h.num}</span>
+            <div class="text">
+              <h3>{h.title}</h3>
+              <p>{h.body}</p>
+            </div>
+            <span class="arrow" aria-hidden="true">→</span>
+          </li>
+        ))}
+      </ol>
+    </div>
+  </div>
+</section>
+
+<style>
+  .wrap { display: flex; flex-direction: column; gap: clamp(3rem, 6vw, 5rem); }
+
+  .head {
+    display: grid; grid-template-columns: minmax(0, 1fr) auto;
+    gap: 32px 64px; align-items: end;
+  }
+  .h2 .line { white-space: nowrap; }
+  .intro { display: flex; flex-direction: column; gap: 24px; max-width: 400px; padding-bottom: 8px; }
+  .rule { width: 56px; height: 3px; background: var(--color-orange); }
+  .lead { color: var(--color-charcoal); }
+
+  .grid {
+    display: grid; grid-template-columns: minmax(0, 1.15fr) minmax(0, 1fr);
+    gap: 16px; align-items: stretch;
+  }
+  .interior {
+    position: relative; min-height: clamp(420px, 44vw, 620px);
+    border-radius: var(--radius-hero); overflow: hidden;
+  }
+  .hours {
+    position: absolute; left: 20px; bottom: 20px; z-index: 2;
+    display: flex; gap: 14px; align-items: flex-start;
+    padding: 16px 20px; border-radius: var(--radius-card);
+    background: rgba(9, 9, 9, 0.55); backdrop-filter: blur(14px); -webkit-backdrop-filter: blur(14px);
+    border: 1px solid var(--hairline-dark); color: var(--color-cream);
+  }
+  .hours > div { display: flex; flex-direction: column; gap: 2px; font-size: 14px; line-height: 1.45; }
+  .hours-label {
+    font-family: var(--font-ui); font-size: 11px; font-weight: 600;
+    letter-spacing: 0.2em; text-transform: uppercase; color: var(--color-orange); margin-bottom: 4px;
+  }
+  .dot {
+    flex: none; width: 8px; height: 8px; margin-top: 4px; border-radius: 999px;
+    background: var(--color-orange); box-shadow: 0 0 0 4px rgba(255, 75, 18, 0.25);
+  }
+
+  .panel {
+    list-style: none; margin: 0; padding: clamp(0.5rem, 1.5vw, 1rem) clamp(1.5rem, 3vw, 2.75rem);
+    display: flex; flex-direction: column;
+    border-radius: var(--radius-hero); background: var(--color-black); color: var(--color-cream);
+  }
+  .row {
+    flex: 1; display: grid; grid-template-columns: auto minmax(0, 1fr) auto;
+    gap: clamp(1rem, 2.5vw, 2rem); align-items: center;
+    padding: clamp(1.5rem, 2.5vw, 2.25rem) 0;
+  }
+  .row + .row { border-top: 1px solid var(--hairline-dark); }
+  .num {
+    min-width: 1.15em; font-family: var(--font-display); font-size: clamp(3rem, 5vw, 4.75rem); line-height: 0.85;
+    color: transparent; -webkit-text-stroke: 1.5px rgba(245, 240, 232, 0.35);
+    transition: color 260ms ease, -webkit-text-stroke-color 260ms ease;
+  }
+  .text { display: flex; flex-direction: column; gap: 10px; }
+  h3 {
+    margin: 0; font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(1.6rem, 2.3vw, 2.25rem); line-height: 0.95; text-transform: uppercase;
+  }
+  p { margin: 0; font-size: 15px; line-height: 1.55; color: var(--color-stone); max-width: 34ch; }
+  .arrow {
+    width: 44px; height: 44px; border-radius: 999px; border: 1px solid rgba(245, 240, 232, 0.25);
+    display: flex; align-items: center; justify-content: center; font-size: 18px;
+    transition: background 220ms ease, border-color 220ms ease, color 220ms ease, transform 220ms var(--ease-expo);
+  }
+  .row:hover .num { color: var(--color-orange); -webkit-text-stroke-color: var(--color-orange); }
+  .row:hover .arrow {
+    background: var(--color-orange); border-color: var(--color-orange); color: var(--color-black);
+    transform: rotate(-45deg);
+  }
+
+  @media (max-width: 1100px) {
+    .head { grid-template-columns: 1fr; }
+    .grid { grid-template-columns: 1fr; }
+  }
+  @media (max-width: 640px) {
+    .h2 .line { white-space: normal; }
+    .arrow { display: none; }
+    .row { grid-template-columns: auto minmax(0, 1fr); }
+    .hours { left: 12px; right: 12px; bottom: 12px; }
+  }
+</style>

@@ -1,0 +1,28 @@
+---
+const words = ['Strength', 'Personal Training', 'Functional Fitness', 'Conditioning', 'Community'];
+// Duplicated so the track can loop seamlessly at -50%.
+const items = [...words, ...words];
+---
+
+<div class="band grain" aria-hidden="true">
+  <div class="track" data-marquee>
+    {items.map((w) => (
+      <div class="item"><span>{w}</span><span class="dot"></span></div>
+    ))}
+  </div>
+</div>
+
+<style>
+  .band {
+    position: relative;
+    background: var(--color-orange); color: var(--color-black); overflow: hidden; padding: 22px 0;
+    border-top: 1px solid var(--color-black); border-bottom: 1px solid var(--color-black);
+  }
+  .track { display: flex; width: max-content; gap: 40px; align-items: center; }
+  .item {
+    display: flex; align-items: center; gap: 40px;
+    font-family: var(--font-display); font-size: clamp(2rem, 4vw, 3.5rem); line-height: 1;
+    text-transform: uppercase; white-space: nowrap;
+  }
+  .dot { width: 14px; height: 14px; border-radius: 999px; background: var(--color-black); }
+</style>

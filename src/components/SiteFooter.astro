@@ -1,0 +1,63 @@
+---
+import { site, navItems } from '../config';
+import LogoMark from './LogoMark.astro';
+
+const explore = navItems.filter((n) => n.href !== '#contact');
+---
+
+<footer class="footer">
+  <div class="container wrap">
+    <div class="cols" data-reveal-stagger>
+      <div class="col">
+        <span class="brand"><LogoMark size={36} />{site.brandName}</span>
+        <p>{site.description}</p>
+      </div>
+      <div class="col">
+        <span class="heading">EXPLORE</span>
+        {explore.map((n) => <a href={n.href}>{n.label}</a>)}
+      </div>
+      <div class="col">
+        <span class="heading">VISIT</span>
+        <address>{site.address[0]}<br />{site.address[1]}</address>
+        <span class="muted">{site.hours[0]}<br />{site.hours[1]}</span>
+      </div>
+      <div class="col">
+        <span class="heading">CONTACT</span>
+        <a href={site.phone.href}>{site.phone.label}</a>
+        <a href={site.whatsappUrl} target="_blank" rel="noopener">WhatsApp</a>
+        <a href={site.email.href}>{site.email.label}</a>
+        <a href={site.instagramUrl}>Instagram</a>
+      </div>
+    </div>
+    <div class="giant" data-parallax-x="0.25" aria-hidden="true">Built for more.</div>
+    <div class="legal">
+      <span>© {new Date().getFullYear()} {site.brandName}. All rights reserved.</span>
+      <div><a href="#">Privacy Policy</a><a href="#">Terms</a></div>
+    </div>
+  </div>
+</footer>
+
+<style>
+  .footer {
+    overflow: hidden; background: var(--color-black);
+    padding: clamp(4rem, 7vw, 6rem) var(--page-gutter) 32px; border-top: 1px solid var(--hairline-dark);
+  }
+  .wrap { display: flex; flex-direction: column; gap: clamp(3rem, 6vw, 5rem); }
+  .cols { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 200px), 1fr)); gap: 40px; }
+  .col { display: flex; flex-direction: column; gap: 12px; font-size: 15px; line-height: 1.5; }
+  .col:first-child { gap: 16px; }
+  .brand { display: flex; align-items: center; gap: 10px; font-family: var(--font-display); font-size: 28px; letter-spacing: 0.04em; }
+  .col p { margin: 0; line-height: 1.55; color: var(--color-stone); max-width: 280px; }
+  .heading { font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.18em; color: var(--color-orange); }
+  address { font-style: normal; }
+  .muted { color: var(--color-stone); }
+  .giant {
+    font-family: var(--font-display); font-size: min(12.5vw, 15rem); line-height: 0.8;
+    color: var(--color-charcoal); text-transform: uppercase; white-space: nowrap;
+  }
+  .legal {
+    display: flex; flex-wrap: wrap; justify-content: space-between; gap: 16px;
+    padding-top: 24px; border-top: 1px solid var(--hairline-dark); font-size: 13px; color: var(--color-stone);
+  }
+  .legal div { display: flex; gap: 24px; }
+</style>

@@ -1,0 +1,81 @@
+/* Premium Fitness Club — starter design tokens */
+:root {
+  color-scheme: dark;
+  --color-black: #090909;
+  --color-orange: #FF4B12;
+  --color-flame: #F4511E;
+  --color-ivory: #F5F0E8;
+  --color-charcoal: #292522;
+  --color-stone: #B8B0A8;
+
+  --font-display: "Anton", "Bebas Neue", sans-serif;
+  --font-heading: "Space Grotesk", "Sora", sans-serif;
+  --font-body: "Inter", sans-serif;
+
+  --radius-card: 16px;
+  --radius-pill: 999px;
+  --border-subtle: rgba(245, 240, 232, 0.18);
+
+  --container-width: 1440px;
+  --section-space: clamp(5rem, 10vw, 10rem);
+  --page-gutter: clamp(1.25rem, 4vw, 4.5rem);
+}
+
+html { scroll-behavior: smooth; }
+
+body {
+  margin: 0;
+  background: var(--color-black);
+  color: var(--color-ivory);
+  font-family: var(--font-body);
+}
+
+.section {
+  padding: var(--section-space) var(--page-gutter);
+}
+
+.section--dark {
+  background: var(--color-black);
+  color: var(--color-ivory);
+}
+
+.section--light {
+  background: var(--color-ivory);
+  color: var(--color-black);
+}
+
+.text-accent { color: var(--color-orange); }
+
+.button {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  gap: 0.75rem;
+  min-height: 3rem;
+  padding: 0.75rem 1.35rem;
+  border-radius: var(--radius-pill);
+  font: inherit;
+  text-decoration: none;
+  transition: transform 180ms ease, background-color 180ms ease;
+}
+
+.button--primary {
+  color: white;
+  background: var(--color-orange);
+}
+
+.button--primary:hover { transform: translateY(-2px); }
+
+.card {
+  border-radius: var(--radius-card);
+  overflow: hidden;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  html { scroll-behavior: auto; }
+  *, *::before, *::after {
+    animation-duration: 0.01ms !important;
+    transition-duration: 0.01ms !important;
+    scroll-behavior: auto !important;
+  }
+}

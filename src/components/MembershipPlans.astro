@@ -1,0 +1,86 @@
+---
+import { site } from '../config';
+
+const plans = [
+  { name: 'Starter', tag: 'Essential gym access.', price: '₹2,499', featured: false,
+    items: ['Full gym floor access', 'Locker & changing facilities', 'Induction session'] },
+  { name: 'Plus', tag: 'More personalized training.', price: '₹4,499', featured: true,
+    items: ['Everything in Starter', 'Monthly progress check-in', 'Personalized training plan', 'Group conditioning classes'] },
+  { name: 'Elite', tag: 'A premium coaching experience.', price: '₹8,999', featured: false,
+    items: ['Everything in Plus', '1:1 coaching sessions', 'Nutrition guidance', 'Priority booking'] },
+];
+---
+
+<section id="membership" class="section section--dark">
+  <div class="container wrap">
+    <div class="stack head">
+      <span class="eyebrow" data-reveal="up">04 / Membership</span>
+      <h2 class="h2" data-reveal="text">Your goals.<br />Your membership.</h2>
+    </div>
+    <div class="grid" data-reveal-stagger>
+      {plans.map((m) => (
+        <div class:list={['plan', { featured: m.featured }]}>
+          <div class="top">
+            <h3>{m.name}</h3>
+            {m.featured && <span class="chosen">MOST CHOSEN</span>}
+          </div>
+          <p class="tag">{m.tag}</p>
+          <div class="price">
+            {site.showPrices ? (
+              <><span class="amount">{m.price}</span><span class="per">/ month</span></>
+            ) : (
+              <span class="amount amount--enquiry">On enquiry</span>
+            )}
+          </div>
+          <ul>
+            {m.items.map((it) => <li><span class="tick" aria-hidden="true">●</span><span>{it}</span></li>)}
+          </ul>
+          <a href="#contact" class="cta">Enquire about {m.name}</a>
+        </div>
+      ))}
+    </div>
+    <p class="note">Plan inclusions are indicative. <a href="#contact">Compare Memberships</a> with our team on a free tour.</p>
+  </div>
+</section>
+
+<style>
+  .wrap { display: flex; flex-direction: column; gap: clamp(3rem, 5vw, 4.5rem); }
+  .head { align-items: center; text-align: center; }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(100%, 320px), 1fr)); gap: 20px; align-items: stretch; }
+  .plan {
+    --bg: var(--color-charcoal); --fg: var(--color-cream); --border: var(--hairline-dark);
+    --rule: rgba(245, 240, 232, 0.14); --tick: var(--color-orange);
+    --btn-bg: var(--color-cream); --btn-fg: var(--color-black);
+    display: flex; flex-direction: column; gap: 28px; padding: clamp(1.75rem, 3vw, 2.5rem);
+    border-radius: var(--radius-card); background: var(--bg); color: var(--fg); border: 1px solid var(--border);
+    transition: border-color 220ms ease, transform 220ms ease;
+  }
+  .plan.featured {
+    --bg: var(--color-orange); --fg: var(--color-black); --border: var(--color-orange);
+    --rule: rgba(9, 9, 9, 0.2); --tick: var(--color-black);
+    --btn-bg: var(--color-black); --btn-fg: var(--color-cream);
+  }
+  .plan:hover { border-color: var(--color-orange); transform: translateY(-4px); }
+  .top { display: flex; justify-content: space-between; align-items: center; gap: 12px; }
+  h3 { margin: 0; font-family: var(--font-display); font-weight: 400; font-size: 44px; line-height: 1; text-transform: uppercase; }
+  .chosen {
+    padding: 6px 12px; border-radius: 999px; background: var(--color-black); color: var(--color-cream);
+    font-family: var(--font-ui); font-size: 12px; font-weight: 600; letter-spacing: 0.08em;
+  }
+  .tag { margin: 0; font-size: 17px; line-height: 1.5; opacity: 0.85; }
+  .price { display: flex; align-items: baseline; gap: 8px; padding-bottom: 24px; border-bottom: 1px solid var(--rule); }
+  .amount { font-family: var(--font-display); font-size: 52px; line-height: 1; }
+  .amount--enquiry { font-size: 36px; }
+  .per { font-family: var(--font-ui); font-size: 14px; opacity: 0.8; }
+  ul { margin: 0; padding: 0; list-style: none; display: flex; flex-direction: column; gap: 14px; flex: 1; }
+  li { display: flex; gap: 12px; font-size: 15px; line-height: 1.45; }
+  .tick { color: var(--tick); }
+  .cta {
+    display: flex; align-items: center; justify-content: center; min-height: 52px; border-radius: 999px;
+    background: var(--btn-bg); color: var(--btn-fg); font-family: var(--font-ui); font-weight: 600; font-size: 15px;
+    transition: opacity 180ms ease;
+  }
+  .cta:hover { opacity: 0.88; color: var(--btn-fg); }
+  .note { margin: 0; text-align: center; font-size: 14px; color: var(--color-stone); }
+  .note a { color: var(--color-cream); text-decoration: underline; text-underline-offset: 3px; }
+</style>

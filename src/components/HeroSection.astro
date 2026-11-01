@@ -1,0 +1,181 @@
+---
+import { Image } from 'astro:assets';
+import heroAthlete from '../assets/images/hero-athlete.jpg';
+
+const stats = [
+  { value: 500, suffix: '+', label: 'Active Members' },
+  { value: 15, suffix: '+', label: 'Expert Trainers' },
+  { value: 100, suffix: '%', label: 'Commitment' },
+];
+const headline = 'Built for more.';
+---
+
+<section class="hero grain" data-hero>
+  <div class="bg" data-parallax="0.18">
+    <div class="photo">
+      <Image
+        src={heroAthlete}
+        alt="Athlete in a fighting stance looking into the camera under warm gym light"
+        widths={[800, 1200, 1800, 2400]}
+        sizes="100vw"
+        loading="eager"
+        fetchpriority="high"
+        class="hero-img"
+      />
+    </div>
+    <!-- Glowing orbit rings circling the athlete -->
+    <svg class="orbits" viewBox="0 0 1000 1000" preserveAspectRatio="xMidYMid meet" aria-hidden="true">
+      <defs>
+        <linearGradient id="orbit-a" x1="0" y1="0" x2="1" y2="1">
+          <stop offset="0" stop-color="#FF4B12" stop-opacity="0" />
+          <stop offset="0.45" stop-color="#FF7A3D" stop-opacity="0.95" />
+          <stop offset="1" stop-color="#FF4B12" stop-opacity="0.1" />
+        </linearGradient>
+        <linearGradient id="orbit-b" x1="1" y1="0" x2="0" y2="1">
+          <stop offset="0" stop-color="#F4511E" stop-opacity="0.9" />
+          <stop offset="0.6" stop-color="#FF4B12" stop-opacity="0.15" />
+          <stop offset="1" stop-color="#FFB089" stop-opacity="0.8" />
+        </linearGradient>
+        <filter id="orbit-glow" x="-20%" y="-20%" width="140%" height="140%">
+          <feGaussianBlur stdDeviation="16" result="b" />
+          <feMerge><feMergeNode in="b" /><feMergeNode in="b" /><feMergeNode in="SourceGraphic" /></feMerge>
+        </filter>
+      </defs>
+      <g class="orbit o1"><ellipse cx="500" cy="500" rx="430" ry="170" fill="none" stroke="url(#orbit-a)" stroke-width="12" filter="url(#orbit-glow)" /></g>
+      <g class="orbit o2"><ellipse cx="500" cy="500" rx="380" ry="250" fill="none" stroke="url(#orbit-b)" stroke-width="7" filter="url(#orbit-glow)" /></g>
+    </svg>
+  </div>
+
+  <div class="layout">
+    <dl class="stats" data-reveal-stagger="load">
+      {stats.map((s) => (
+        <div>
+          <dd class="num" data-count={s.value} data-suffix={s.suffix}>{s.value}{s.suffix}</dd>
+          <dt class="label">{s.label}</dt>
+        </div>
+      ))}
+    </dl>
+
+    <a href="#enquiry" class="badge" aria-label="Free trial session. Book a tour this week">
+      <svg class="ring" viewBox="0 0 200 200" aria-hidden="true">
+        <defs><path id="badge-circle" d="M100,100 m-80,0 a80,80 0 1,1 160,0 a80,80 0 1,1 -160,0" /></defs>
+        <text><textPath href="#badge-circle" textLength="500">FREE TRIAL SESSION · BOOK A TOUR THIS WEEK · </textPath></text>
+      </svg>
+      <span class="core">FREE</span>
+    </a>
+
+    <h1 class="headline" data-headline aria-label={headline}>
+      <span class="trail t2" aria-hidden="true">{headline}</span>
+      <span class="trail t1" aria-hidden="true">{headline}</span>
+      <span class="solid" aria-hidden="true">Built for <span class="accent">more.</span></span>
+    </h1>
+  </div>
+</section>
+
+<style>
+  .hero {
+    position: relative; overflow: hidden; isolation: isolate;
+    min-height: 100svh; padding-top: 76px;
+    display: flex; background: var(--color-black);
+  }
+  /* Background photo: natural skin tones pushed warm, so the athlete stays human and inviting */
+  .bg { position: absolute; inset: -8% 0; z-index: -1; }
+  .photo { position: absolute; inset: 0; animation: heroScale 1800ms cubic-bezier(.2, .7, .2, 1) both; }
+  .photo :global(.hero-img) {
+    position: absolute; inset: 0; width: 100%; height: 100%;
+    object-fit: cover; object-position: 50% 30%;
+    filter: sepia(0.35) saturate(1.35) hue-rotate(-12deg) contrast(1.12) brightness(0.82);
+  }
+  /* Warm wash: orange light from the right, ember shadows */
+  .photo::before {
+    content: ""; position: absolute; inset: 0; z-index: 1;
+    background:
+      radial-gradient(60% 70% at 62% 38%, rgba(255, 122, 61, 0.55), rgba(255, 75, 18, 0.2) 45%, transparent 70%),
+      linear-gradient(160deg, rgba(255, 75, 18, 0.35), rgba(142, 30, 8, 0.45));
+    mix-blend-mode: soft-light;
+  }
+  .photo::after {
+    content: ""; position: absolute; inset: 0; z-index: 2;
+    background:
+      linear-gradient(90deg, rgba(9, 9, 9, 0.6) 0%, rgba(9, 9, 9, 0.15) 30%, rgba(9, 9, 9, 0) 55%, rgba(9, 9, 9, 0.75) 100%),
+      linear-gradient(180deg, rgba(9, 9, 9, 0.45) 0%, rgba(9, 9, 9, 0) 28%, rgba(9, 9, 9, 0.1) 60%, rgba(9, 9, 9, 0.95) 100%);
+  }
+
+  /* Orbit rings, centred on the athlete and slowly turning in opposite directions */
+  .orbits {
+    position: absolute; left: 47%; top: 47%; width: min(110vw, 1500px); aspect-ratio: 1;
+    translate: -50% -50%; z-index: 3; pointer-events: none; mix-blend-mode: screen; opacity: 0.7;
+  }
+  .orbit { transform-box: view-box; transform-origin: 50% 50%; }
+  .o1 { animation: orbitA 26s linear infinite; }
+  .o2 { animation: orbitB 38s linear infinite; }
+  @keyframes orbitA { from { transform: rotate(-18deg); } to { transform: rotate(342deg); } }
+  @keyframes orbitB { from { transform: rotate(24deg); } to { transform: rotate(-336deg); } }
+
+  .layout {
+    position: relative; width: 100%; max-width: var(--container-width); margin: 0 auto;
+    padding: clamp(2rem, 5vw, 4rem) var(--page-gutter) clamp(1rem, 2vw, 1.75rem);
+    display: grid; grid-template-columns: 1fr auto; grid-template-rows: auto 1fr auto;
+    column-gap: 2rem;
+  }
+
+  .stats {
+    grid-column: 2; grid-row: 1; margin: 0; align-self: start;
+    display: flex; flex-direction: column; min-width: 190px;
+  }
+  .stats > div {
+    display: flex; flex-direction: column; gap: 2px; padding: 14px 0;
+    border-top: 1px solid var(--hairline-dark); text-align: right;
+  }
+  .stats dd { margin: 0; }
+  .num { font-family: var(--font-display); font-size: clamp(2rem, 3vw, 2.75rem); line-height: 1; font-variant-numeric: tabular-nums; }
+  .label { font-family: var(--font-ui); font-size: 12px; letter-spacing: 0.12em; text-transform: uppercase; color: rgba(245, 240, 232, 0.7); }
+
+  /* Rotating free-trial badge */
+  .badge {
+    grid-column: 2; grid-row: 2; align-self: center; justify-self: end;
+    position: relative; width: clamp(120px, 11vw, 168px); aspect-ratio: 1; display: grid; place-items: center;
+    color: var(--color-cream);
+  }
+  .badge:hover { color: var(--color-cream); }
+  .ring { position: absolute; inset: 0; width: 100%; height: 100%; animation: spin 18s linear infinite; }
+  .ring text { font-family: var(--font-ui); font-size: 15px; font-weight: 600; letter-spacing: 0.08em; fill: currentColor; }
+  .core {
+    width: 52%; aspect-ratio: 1; border-radius: 999px; background: var(--color-orange); color: var(--color-black);
+    display: grid; place-items: center; font-family: var(--font-display); font-size: clamp(16px, 1.5vw, 22px);
+    transition: transform 300ms var(--ease-expo);
+  }
+  .badge:hover .core { transform: scale(1.08); }
+
+  /* Headline with outlined motion trails; --trail is stretched by scroll speed in motion.ts */
+  .headline {
+    --trail: 0.05em;
+    grid-column: 1 / -1; grid-row: 3; position: relative; margin: 0;
+    font-family: var(--font-display); font-weight: 400; text-transform: uppercase;
+    font-size: clamp(4rem, 13.4vw, 15.5rem); line-height: 0.82; letter-spacing: -0.005em; white-space: nowrap;
+  }
+  .headline .trail { position: absolute; inset: 0; color: transparent; pointer-events: none; user-select: none; }
+  .headline .t1 { -webkit-text-stroke: 1.5px rgba(255, 75, 18, 0.9); translate: calc(var(--trail) * -1) 0; }
+  .headline .t2 { -webkit-text-stroke: 1px rgba(245, 240, 232, 0.35); translate: calc(var(--trail) * -2.2) 0; filter: blur(1px); }
+  .headline .solid { position: relative; display: block; color: var(--color-cream); }
+
+  @keyframes heroScale { from { transform: scale(1.08); } to { transform: scale(1); } }
+  @keyframes spin { to { rotate: 360deg; } }
+
+  @media (max-width: 899px) {
+    .layout { grid-template-columns: 1fr; grid-template-rows: auto 1fr auto; row-gap: 28px; }
+    .stats {
+      grid-column: 1; grid-row: 1; flex-direction: row; min-width: 0; gap: clamp(1rem, 5vw, 2.5rem);
+    }
+    .stats > div { text-align: left; flex: 1; }
+    .badge { grid-column: 1; grid-row: 2; align-self: end; justify-self: end; width: 112px; }
+    .headline { grid-row: 3; white-space: normal; font-size: 20vw; line-height: 0.84; }
+    /* Drop the photo below the stats so the face stays clear of text */
+    .bg { inset: 16% 0 -6%; }
+    .photo :global(.hero-img) { object-position: 44% 15%; }
+    .photo::after {
+      background: linear-gradient(180deg, var(--color-black) 0%, rgba(9, 9, 9, 0) 22%, rgba(9, 9, 9, 0.1) 55%, rgba(9, 9, 9, 0.95) 100%);
+    }
+    .orbits { left: 46%; top: 30%; width: 170vw; }
+  }
+</style>

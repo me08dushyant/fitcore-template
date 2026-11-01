@@ -1,0 +1,86 @@
+---
+import ImageSlot from './ImageSlot.astro';
+import t1 from '../assets/images/trainer-1.jpg';
+import t2 from '../assets/images/trainer-2.jpg';
+import t3 from '../assets/images/trainer-3.jpg';
+import t4 from '../assets/images/trainer-4.jpg';
+
+// Sample coaches with stock portraits. Swap in real coaches and verified qualifications only.
+const trainers = [
+  { name: 'Rohan Kapoor', spec: 'Strength & Powerlifting', years: '9 YRS', img: t1, tone: 'mono',
+    intro: 'Competitive powerlifter who builds strong foundations, from your first deadlift to your first meet.' },
+  { name: 'Amara Wells', spec: 'Personal Training', years: '7 YRS', img: t2, tone: 'ember',
+    intro: 'Designs one-to-one programmes around your schedule, your history and the goal you actually care about.' },
+  { name: 'Sofia Fernandes', spec: 'Functional & Mobility', years: '6 YRS', img: t3, tone: 'mono',
+    intro: 'Mobility specialist focused on moving well, training pain-free and staying strong for the long run.' },
+  { name: 'Marcus Reid', spec: 'Conditioning', years: '11 YRS', img: t4, tone: 'ember',
+    intro: 'Former boxing coach who runs our conditioning floor. Expect intervals, rounds and a lot of energy.' },
+].map((t) => ({ ...t, tone: t.tone as 'mono' | 'ember' }));
+---
+
+<section id="trainers" class="section section--cream">
+  <div class="container wrap">
+    <div class="section-head">
+      <div class="stack">
+        <span class="eyebrow" data-reveal="up">03 / Expert Coaching</span>
+        <h2 class="h2" data-reveal="text">The right people.<br /><span class="accent">The right guidance.</span></h2>
+      </div>
+      <a href="#contact" class="meet">Meet Our Trainers</a>
+    </div>
+    <div class="grid" data-reveal-stagger>
+      {trainers.map((t) => (
+        <article class="trainer">
+          <div class="portrait">
+            <ImageSlot
+              label="Trainer portrait"
+              src={t.img}
+              alt={`${t.name}, ${t.spec} coach`}
+              tone={t.tone}
+              position="center 25%"
+              widths={[360, 600, 900]}
+              sizes="(min-width: 1100px) 25vw, 50vw"
+            />
+            <span class="years">{t.years}</span>
+          </div>
+          <div class="info">
+            <span class="spec">{t.spec}</span>
+            <h3>{t.name}</h3>
+            <p>{t.intro}</p>
+          </div>
+        </article>
+      ))}
+    </div>
+  </div>
+</section>
+
+<style>
+  .wrap { display: flex; flex-direction: column; gap: clamp(3rem, 5vw, 4.5rem); }
+  .meet {
+    display: inline-flex; align-items: center; gap: 12px; min-height: 52px; padding: 0 26px;
+    border-radius: 999px; background: var(--color-black); color: var(--color-cream);
+    font-family: var(--font-ui); font-weight: 500; font-size: 15px;
+    transition: background 180ms ease, color 180ms ease;
+  }
+  .meet:hover { background: var(--color-orange); color: var(--color-black); }
+  .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(min(45%, 260px), 1fr)); gap: clamp(1rem, 2vw, 2rem); }
+  .trainer { display: flex; flex-direction: column; gap: 18px; }
+  .portrait { position: relative; aspect-ratio: 3 / 4; border-radius: var(--radius-card); overflow: hidden; background: var(--color-black); }
+  .years {
+    position: absolute; top: 14px; left: 14px; padding: 6px 12px; border-radius: 999px;
+    background: var(--color-cream); color: var(--color-black);
+    font-family: var(--font-ui); font-size: 12px; font-weight: 600; letter-spacing: 0.06em; pointer-events: none;
+  }
+  .info { display: flex; flex-direction: column; gap: 6px; }
+  .spec {
+    font-family: var(--font-ui); font-size: 13px; font-weight: 600; letter-spacing: 0.14em;
+    text-transform: uppercase; color: var(--color-deep-orange);
+  }
+  h3 {
+    margin: 0; font-family: var(--font-display); font-weight: 400;
+    font-size: clamp(22px, 3vw, 32px); line-height: 1; text-transform: uppercase;
+  }
+  p { margin: 4px 0 0; font-size: 15px; line-height: 1.55; color: var(--color-charcoal); }
+  @media (min-width: 900px) {
+    .trainer:nth-child(even) { margin-top: 48px; }
+  }
+</style>
